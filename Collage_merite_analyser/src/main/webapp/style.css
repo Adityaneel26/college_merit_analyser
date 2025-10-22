@@ -157,6 +157,52 @@ body {
 .contact-form .btn {
     margin-top: 1rem;
 }
+.header {
+  /* This is crucial for positioning the logo correctly */
+  position: relative;
+  
+  /* Set a fixed height for your header */
+  /* Adjust this '80px' to whatever height you want your header to be */
+  height: 80px; 
+  
+  /* This helps align the navbar links vertically */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px; /* Add some padding */
+}
+
+.logo {
+  /* This div will act as the "anchor" for our image */
+  /* It won't have a size itself, but it's needed for positioning */
+  position: static;
+}
+
+.logo-img {
+  /* This takes the image OUT of the page flow */
+  position: absolute; 
+  
+  /* Set your desired height */
+  height: 180px; 
+  width: auto;   /* Keep aspect ratio */
+
+  /* Position the image:
+    'top: -50px' means it starts 50px ABOVE the header's top edge.
+    'left: 20px' means it's 20px from the left side.
+    
+    ** YOU WILL NEED TO CHANGE -50px and 20px TO LOOK GOOD! **
+  */
+  top: -50px;  /* Adjust this negative value to move the logo up/down */
+  left: 20px; /* Adjust this to move the logo left/right */
+
+  /* This makes sure your logo appears on top of other elements */
+  z-index: 100; 
+}
+
+.navbar {
+  /* This ensures the navbar stays on the right side */
+  margin-left: auto; 
+}
 /*
 Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
