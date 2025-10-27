@@ -84,6 +84,7 @@
         <a href="home.jsp">Home</a>
         <a href="about.jsp">About Us</a>
         <a href="contact.jsp">Contact</a>
+        <a href="how_it_works.jsp">How It Works</a>
         <a href="faq.jsp">FAQ</a>
     </nav>
 </header>
