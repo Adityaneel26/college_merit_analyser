@@ -1,9 +1,21 @@
 services:
   - type: web
     name: college-merit-analyser
-    env: java
+    plan: free
+    
+    # This tells Render to look inside your sub-folder
+    rootDir: Collage_merite_analyser
+    
+    # Render will auto-detect Java from your pom.xml
+    # We are leaving 'runtime: java' OUT on purpose
+    
+    # This command runs inside the 'Collage_merite_analyser' folder
     buildCommand: mvn clean package
-    startCommand: java -jar webapp-runner.jar target/college_merit_analyser.war
+    
+    # This command also runs inside the 'Collage_merite_analyser' folder
+    startCommand: java -jar webapp-runner-9.0.27.1.jar target/college_merit_analyser.war
+    
+    # These are your database variables
     envVars:
       - key: DB_HOST
         value: ""
