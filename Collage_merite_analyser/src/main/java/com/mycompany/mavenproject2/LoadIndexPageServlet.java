@@ -15,42 +15,53 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// This servlet will now be our homepage
 @WebServlet("/home")
 public class LoadIndexPageServlet extends HttpServlet {
-    
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/college_admission";
-    private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "";
+
+    // We will now load PostgreSQL credentials from Render environment variables
+    private static final String DB_HOST = System.getenv("DB_HOST");
+    private static final String DB_PORT = System.getenv("DB_PORT");
+    private static final String DB_NAME = System.getenv("DB_NAME");
+    private static final String DB_USER = System.getenv("DB_USER");
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
+
+    // Build the PostgreSQL JDBC URL
+    private static final String DB_URL = "jdbc:postgresql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         List<String> locations = new ArrayList<>();
-        
-        // This SQL query is smart. It splits the 'institute_name' at the comma,
-        // takes the last part (the city), trims whitespace, and gets only unique values.
-        String sql = "SELECT DISTINCT TRIM(SUBSTRING_INDEX(institute_name, ',', -1)) AS location FROM colleges ORDER BY location ASC";
+
+        // PostgreSQL syntax is mostly similar to MySQL for SELECT
+        String sql = "SELECT DISTINCT TRIM(SPLIT_PART(institute_name, ',', 2)) AS location FROM colleges ORDER BY location ASC";
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Load PostgreSQL driver
+            Class.forName("org.postgresql.Driver");
+
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
                  PreparedStatement ps = conn.prepareStatement(sql);
                  ResultSet rs = ps.executeQuery()) {
-                
+
                 while (rs.next()) {
-                    locations.add(rs.getString("location"));
+                    String location = rs.getString("location");
+                    if (location != null && !location.trim().isEmpty()) {
+                        locations.add(location.trim());
+                    }
                 }
             }
+
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            request.setAttribute("error", "Database connection failed: " + e.getMessage());
         }
-        
+
         // Send the list of locations to the JSP page
         request.setAttribute("locationsList", locations);
-        
-        // Forward to the JSP to display the form
+
+        // Forward to the JSP page
         RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
         dispatcher.forward(request, response);
     }
