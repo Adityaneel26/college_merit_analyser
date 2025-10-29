@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: college-merit-analyser
+    runtime: java
+    plan: free
+    buildCommand: mvn clean package
+    startCommand: java -jar webapp-runner-9.0.27.1.jar target/college_merit_analyser.war
+    envVars:
+      - key: DB_HOST
+      - key: DB_PORT
+      - key: DB_NAME
+      - key: DB_USER
+      - key: DB_PASSWORD
