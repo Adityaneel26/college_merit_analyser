@@ -3,6 +3,7 @@ services:
     name: college-merit-analyser
     runtime: java
     plan: free
+    rootDir: Collage_merite_analyser  # <-- THIS IS THE NEW, IMPORTANT LINE
     buildCommand: mvn clean package
     startCommand: java -jar webapp-runner-9.0.27.1.jar target/college_merit_analyser.war
     envVars:
