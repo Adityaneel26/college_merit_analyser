@@ -1,8 +1,8 @@
 services:
   - type: web
-    name: college-merit-analyser
+    name: college-merit-analyzer
     plan: free
-    rootDir: Collage_merite_analyser
+    rootDir: .
     docker:
       dockerfile: Dockerfile
     buildCommand: mvn clean package
