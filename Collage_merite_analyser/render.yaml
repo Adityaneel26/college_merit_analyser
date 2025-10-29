@@ -1,1 +1,14 @@
+services:
+  - type: web
+    name: college-merit-analyser
+    env: java
+    buildCommand: mvn clean package
+    startCommand: java -jar webapp-runner.jar target/college_merit_analyser.war
+    envVars:
+      - key: DATABASE_URL
+        value: jdbc:mysql://<your-db-host>:3306/<your-db-name>
+      - key: DB_USER
+        value: <your-username>
+      - key: DB_PASS
+        value: <your-password>
 
