@@ -1,7 +1,6 @@
 services:
   - type: web
     name: college-merit-analyser
-    runtime: java
     plan: free
     rootDir: Collage_merite_analyser
     buildCommand: mvn clean package
